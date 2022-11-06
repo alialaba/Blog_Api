@@ -13,6 +13,12 @@ const UserSchema = new Schema({
         required: true
     },
     password: String,
+    blogs:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Blog"
+        }
+    ],
     firstname:{
         type: String,
         required: true
@@ -21,7 +27,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     }
-    // user_type:{type: String, required: true, enum:["user", "not_User"], default:"not_User"}
+   
 
 })
 

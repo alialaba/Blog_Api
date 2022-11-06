@@ -72,7 +72,6 @@ passport.use(
         passReqToCallback: true
     },
      async(req, email, password, done)=>{
-
         try {
             const user = await UserModel.findOne({email});
             
@@ -81,11 +80,9 @@ passport.use(
             }
 
             const validate = await user.isValidPassword(password);
-
             if(!validate){
                 return done(null, false, {message:"Wrong password"})
             }
-
 
             return done(null, user, {message:"Logged In Successfully"})
             

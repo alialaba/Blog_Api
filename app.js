@@ -4,6 +4,7 @@ const BlogRouter = require("./routes/blogRoutes")
 
 
 
+
 //connect to database
 const database = require("./db");
 const authRouter = require("./routes/authRoutes");
@@ -22,7 +23,7 @@ const PORT = process.env.PORT
 require("./passport") ;
 
 //routes 
-app.use("/", authRouter)
+app.use("/",  authRouter)
 app.use("/blogs", BlogRouter)
 
 
@@ -30,8 +31,6 @@ app.use("/blogs", BlogRouter)
 app.get('/', (req, res) => {
     return res.json({ status: true })
 })
-
-
 
 //route error
 app.use("*", (req,res)=>{

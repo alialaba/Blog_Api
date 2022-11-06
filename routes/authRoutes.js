@@ -10,14 +10,7 @@ const authRouter = express.Router();
 
 authRouter.post("/signup", passport.authenticate("signup", { session: false}),  AuthController.signup)
 
-// authRouter.post("/login2", async (req,res, next)=> passport.authenticate("login", (err,user,info)=>{
-//     AuthController.login(req,res, {err, user, info})
-// })(req,res,next))
-
-
 authRouter.post("/login", async (req,res,next)=>{
-
-
     passport.authenticate("login", async (err,user,info)=>{
 
         try {
@@ -52,7 +45,6 @@ authRouter.post("/login", async (req,res,next)=>{
         } catch (error) {
             return next(error)
         }
-        
 
     })
 (req,res,next)

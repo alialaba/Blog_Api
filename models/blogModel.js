@@ -9,7 +9,8 @@ const blogSchema = new Schema({
         unique:true
     },
     description:String,
-    author:String,
+    author:{type: mongoose.Schema.Types.ObjectId,
+            ref: "User"},
     state:{
         type:String,
         default:"draft",

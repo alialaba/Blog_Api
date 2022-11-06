@@ -28,7 +28,7 @@ console.log(req.body)
 }
 
 
-exports.login = (req,res ,{err,user,info})=>{
+exports.login = (req, res ,{err , user , info })=>{
   
 
     if(!user){
@@ -37,8 +37,8 @@ exports.login = (req,res ,{err,user,info})=>{
 
      // req.login is provided by passport
      req.login( user,{session:false},
-        async(error)=>{
-        if(error) return res.status(400).json(error)
+        async (error) =>{
+        if (error) return res.status(400).json(error)
 
 
         const body ={_id: user._id, email: user.email}
