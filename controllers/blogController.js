@@ -5,7 +5,8 @@ const readTime = require("../readTimeLogic");
 
 
 //logged in  && not logged in should get to see a published blogs
-async  function getBlogs(req,res){
+exports.getBlogs = async (req,res)=>{
+try {
     const {query} = req;
     const { 
         created_at, 
@@ -74,24 +75,35 @@ async  function getBlogs(req,res){
 
     
     return res.status(200).json({status: true, blogs });
-    
+ 
+} catch (error) {
+    res.send(error.message)
+}
+
+      
 }
 
 //logged in  && not logged in should get to see a published blog
-async function getBlog(req,res){
+exports.getBlog = async  (req,res)=>{
 
-const {id} = req.params;
+    try {
+        const {id} = req.params;
 
-const blog = await BlogModel.findById({_id:id})  
-blog.read_count = blog.read_count + 1
+        const blog = await BlogModel.findById({_id:id})  
+        blog.read_count = blog.read_count + 1
 
-await blog.save();
-return res.json({status:true, blog})
+        await blog.save();
+        return res.json({status:true, blog})
+
+    } catch (error) {
+        res.send(error.message)
+    }
 }
 
 //Authorised users should be able to create a blog
-async function createBlog(req,res){
-   const newBlog = req.body; 
+exports.createBlog = async (req,res)=>{
+   try {
+    const newBlog = req.body; 
 
    //readingTime
    const readingTime = await readTime.getReadTime(newBlog.body);
@@ -100,18 +112,22 @@ async function createBlog(req,res){
    const blogCreator = await UserModel.findOne({_id:req.user._id});
    newBlog.author = blogCreator;
    
-   console.log(blogCreator)
 
    await BlogModel.create(newBlog);
    return res.json({message:"Blog created Successfully"})
+   } catch (error) {
+    res.send(error.message)
+    
+   }
 }
 
 
 
 //authorized user should be able to published their post
-async function  updateBlogState(req,res){
+exports.updateBlogState = async (req,res)=>{
 
-    const {id} = req.params;
+    try {
+        const {id} = req.params;
     const {state }= req.body;
 
     const blog = await BlogModel.findOne({_id:id});  
@@ -123,23 +139,22 @@ async function  updateBlogState(req,res){
     blog.state = state //update state
     await blog.save();
     return res.json({status: true, blog })
+    } catch (error) {
+        res.send(error.message)
+    }
    
 
 }
 
 
-async function deleteBlog(req,res){ 
+exports.deleteBlog  = async (req,res)=>{ 
+   try {
     const {id} = req.params;
 
     const blog = await BlogModel.deleteOne({_id:id});
     console.log(blog)
     return res.status(200).json({message:"Deleted Successful" , blog})
-}
-module.exports={
-    getBlogs,
-    getBlog,
-    createBlog,
-    updateBlogState,
-    deleteBlog
-
+   } catch (error) {
+    res.send(error.message)
+   }
 }
