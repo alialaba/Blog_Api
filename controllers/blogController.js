@@ -9,7 +9,7 @@ async  function getBlogs(req,res){
     const {query} = req;
     const { 
         created_at, 
-        state, 
+        state= "published", 
         title,
         description,
         tags,
@@ -130,11 +130,12 @@ async function  updateBlogState(req,res){
 }
 
 
-async function deleteBlog(req,res){
+async function deleteBlog(req,res){ 
     const {id} = req.params;
 
     const blog = await BlogModel.deleteOne({_id:id});
-    return res.json({status:true , blog})
+    console.log(blog)
+    return res.status(200).json({message:"Deleted Successful" , blog})
 }
 module.exports={
     getBlogs,
