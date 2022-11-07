@@ -97,7 +97,6 @@ async function createBlog(req,res){
    const readingTime = await readTime.getReadTime(newBlog.body);
    newBlog.reading_time = readingTime;   
 
-    //blog author
    const blogCreator = await UserModel.findOne({_id:req.user._id});
    newBlog.author = blogCreator;
    
@@ -114,7 +113,6 @@ async function  updateBlogState(req,res){
 
     const {id} = req.params;
     const {state }= req.body;
-    // console.log(id)
 
     const blog = await BlogModel.findOne({_id:id});  
 

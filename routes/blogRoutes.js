@@ -1,7 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const BlogController = require("../controllers/blogController")
-// const checkId = require("../checkId")
+
 
 const blogRouter = express.Router();
 
