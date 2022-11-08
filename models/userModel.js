@@ -12,11 +12,14 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    password: String,
+    password: {
+        type: String,
+        required: true
+    },
     blogs:[
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:"Blog"
+            ref:"blogs"
         }
     ],
     firstname:{
@@ -53,6 +56,8 @@ UserSchema.methods.isValidPassword = async function(password) {
   
     return compare;
   }
+
+
 const User = mongoose.model("users", UserSchema)// collection name and schema name
 
 module.exports= User;

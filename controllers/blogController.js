@@ -89,7 +89,12 @@ exports.getBlog = async  (req,res)=>{
     try {
         const {id} = req.params;
 
-        const blog = await BlogModel.findById({_id:id})  
+        const blog = await BlogModel.findById({_id:id})
+        if(blog.state !== "published"){
+            return res.status(400).json({status:false, message:"Blog is not published"})
+        }
+
+        //update blog read count
         blog.read_count = blog.read_count + 1
 
         await blog.save();
@@ -99,6 +104,14 @@ exports.getBlog = async  (req,res)=>{
         res.send(error.message)
     }
 }
+
+exports.getUserBlogs = async (req,res)=>{
+    const user = req.user._id
+    const userBlogs = await UserModel.findById(user).populate("blogs",{title:1} )
+   const blogs =  userBlogs.blogs
+   console.log(blogs)
+}
+
 
 //Authorised users should be able to create a blog
 exports.createBlog = async (req,res)=>{
@@ -114,7 +127,7 @@ exports.createBlog = async (req,res)=>{
    
 
    await BlogModel.create(newBlog);
-   return res.json({message:"Blog created Successfully"})
+   return res.json({status: true ,message:"Blog created Successfully"})
    } catch (error) {
     res.send(error.message)
     
@@ -122,10 +135,8 @@ exports.createBlog = async (req,res)=>{
 }
 
 
-
-//authorized user should be able to published their post
+//authorised user should be able to publish their blog
 exports.updateBlogState = async (req,res)=>{
-
     try {
         const {id} = req.params;
     const {state }= req.body;
@@ -142,18 +153,76 @@ exports.updateBlogState = async (req,res)=>{
     } catch (error) {
         res.send(error.message)
     }
+}
+
+
+//authorized user should be able to update their blog
+exports.updateBlog = async (req,res)=>{
+
+    try {
+        const {id} = req.params;
+        const user = req.user;
+        const body = req.body;
+   
+    const blogOwner = await UserModel.findById(user._id)
+    
+    const blog = await BlogModel.findById(id);  
+   
+
+    if(!blog){
+        return res.status(404).json({status: false, blog: null})
+    }
+    const ownerId = JSON.stringify(blogOwner._id);
+    const postAuthorId = JSON.stringify(blog.author)
+    
+    //check if the user is the author
+    if(ownerId !== postAuthorId){
+        return res.status(401).json({
+            message:"Unauthorised"
+        })
+    }
+
+    //update blog body
+    const updateBlog = await blog.updateOne(body)
+
+    return res.json({status: true,message:"updated successfully", updateBlog})
+
+    } catch (error) {
+        res.send(error.message)
+    }
    
 
 }
 
 
+
+//Delete Blog by authorised user
 exports.deleteBlog  = async (req,res)=>{ 
    try {
     const {id} = req.params;
+    const user = req.user;
 
-    const blog = await BlogModel.deleteOne({_id:id});
-    console.log(blog)
-    return res.status(200).json({message:"Deleted Successful" , blog})
+    const blogOwner = await UserModel.findById(user._id)//author id
+    
+    const blog = await BlogModel.findById(id);  //blog id
+  
+
+    if(!blog){
+        return res.status(404).json({status: false, blog: null})
+    }
+    const ownerId = JSON.stringify(blogOwner._id);
+    const postAuthorId = JSON.stringify(blog.author)
+    
+    //check if the user is the author
+    if(ownerId !== postAuthorId){
+        return res.status(401).json({
+            message:"Unauthorised"
+        })
+    }
+
+
+    const deleteBlog = await BlogModel.deleteOne({_id:id});
+    return res.status(201).json({status:true, message:"Deleted Successful" , deleteBlog})
    } catch (error) {
     res.send(error.message)
    }

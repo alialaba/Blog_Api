@@ -6,8 +6,16 @@ require('dotenv').config();
 require("dotenv").config()
 
 exports.signup  = async (req,res,next)=>{
+
+    const user = await userModel.findOne({username: req.user.email})
+
     
     try{
+        user.firstname = req.body.firstname
+        user.lastname = req.body.lastname
+        user.email = req.body.email
+        
+
         res.json({
             message:"Sign up successfully",
             user:req.user
