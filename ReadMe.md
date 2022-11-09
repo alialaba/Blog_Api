@@ -191,7 +191,8 @@ Success (state:"published")
 * Route: /blogs/id
 * Method: GET
 * Header:
-  * Authorization: Bearer {token}
+  * Authorization: Bearer {token} 
+  *Note: token expires in 1hr*
 
 * Responses
 Success
@@ -203,6 +204,7 @@ Success
 * Method: PATCH
 * Header:
   * Authorization: Bearer {token}
+  *Note: token expires in 1hr*
 
 * Responses
   
@@ -234,6 +236,7 @@ Success (change state to published)
 * Method: PUT
 * Header:
   * Authorization: Bearer {token}
+  *Note: token expires in 1hr*
 
 * Responses
 Success(update any part of the blog body)
@@ -258,6 +261,7 @@ Success(update any part of the blog body)
 * Method: DELETE
 * Header:
   * Authorization: Bearer {token}
+  *Note: token expires in 1hr*
 
 * Responses
 Success

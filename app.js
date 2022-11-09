@@ -29,7 +29,7 @@ app.use("/blogs", BlogRouter)
 
 // home route
 app.get('/', (req, res) => {
-    return res.json({ status: true })
+    return res.json({ status: true , message:"Hey, Welcome to the Blog APIs World "})
 })
 
 //route error

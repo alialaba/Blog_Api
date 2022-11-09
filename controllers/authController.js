@@ -31,7 +31,7 @@ exports.login = (req, res ,{err , user , info })=>{
 
 
     if(!user){
-        return res.json({message:"Email or password is incorrect"});
+        return res.status(403).json({message:"Email or password is incorrect"});
     }
 
      // req.login is provided by passport
@@ -45,7 +45,7 @@ exports.login = (req, res ,{err , user , info })=>{
         //You store the id and email in the payload of the JWT. 
         // You then sign the token with a secret or key (JWT_SECRET), and send back the token to the user.
         // DO NOT STORE PASSWORDS IN THE JWT!
-        const token = jwt.sign({user:body}, process.env.JWT_SECRET  || "something_secret");
+        const token = jwt.sign({user:body}, process.env.JWT_SECRET  || "something_secret", {expiresIn:"1h"});
 
         return  res.status(200).json({token})
 
