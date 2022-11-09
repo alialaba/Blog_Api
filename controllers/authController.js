@@ -16,7 +16,7 @@ exports.signup  = async (req,res,next)=>{
         user.email = req.body.email
         
 
-        res.json({
+      return res.status(201).json({
             message:"Sign up successfully",
             user:req.user
         })

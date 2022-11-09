@@ -1,7 +1,7 @@
 const {BlogModel }= require("../models");
 const {UserModel} = require("../models")
 const moment = require("moment")
-const readTime = require("../readTimeLogic");
+const readTime = require("../utilis/readTimeLogic");
 
 
 //logged in  && not logged in should get to see a published blogs
@@ -126,8 +126,8 @@ exports.createBlog = async (req,res)=>{
    newBlog.author = blogCreator;
    
 
-   await BlogModel.create(newBlog);
-   return res.json({status: true ,message:"Blog created Successfully"})
+   const newBlogCreated = await BlogModel.create(newBlog);
+   return res.json({status: true ,message:"Blog created Successfully" , newBlogCreated})
    } catch (error) {
     res.send(error.message)
     
