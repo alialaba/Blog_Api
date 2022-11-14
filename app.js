@@ -1,23 +1,15 @@
 const express = require("express");
+
 const app = express();
-const BlogRouter = require("./routes/blogRoutes")
 
-
-
-
-//connect to database
-const database = require("./db");
+const BlogRouter = require("./routes/blogRoutes");
 const authRouter = require("./routes/authRoutes");
-database.connectToDB();
 
 
-app.use(express.json());//bodyparser
-
+app.use(express.json());//express bodyparser
 
 
 
-require("dotenv").config();
-const PORT = process.env.PORT
 
 // register passport
 require("./passport") ;
@@ -32,11 +24,10 @@ app.get('/', (req, res) => {
     return res.json({ status: true , message:"Hey, Welcome to the Blog APIs World "})
 })
 
-//route error
+//route 404 error
 app.use("*", (req,res)=>{
-    res.status(404).json({message:"Route is not found"})
+   return  res.status(404).json({message:"Route is not found"})
 })
 
-app.listen(PORT,()=>{
-    console.log(`Server is running on PORT ${PORT}`)
-})
+module.exports = app
+
