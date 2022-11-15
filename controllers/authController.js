@@ -14,6 +14,7 @@ exports.signup  = async (req,res,next)=>{
         user.firstname = req.body.firstname
         user.lastname = req.body.lastname
         user.email = req.body.email
+        user.password = req.body.password
         
 
       return res.status(201).json({

@@ -5,7 +5,6 @@ const app = require("../app");//getting my app.js func
 describe('App Home Route', ()=>{
     it('should return status true', async ()=>{
         const response = await request(app).get("/").set('content-type', 'application/json');
-        console.log(response)
         expect(response.status).toBe(200)
         expect(response.body).toEqual({status:true,  message:"Hey, Welcome to the Blog APIs World "})
     })
