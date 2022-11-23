@@ -1,10 +1,9 @@
 const request = require("supertest");
-const { connect } = require("./database")
+const { connect } = require("./database");
 const UserModel = require("../models/userModel");
 
 
 const app = require("../app");
-
 
 describe('App: Auth for Signup/Login Route', ()=>{
 
@@ -30,7 +29,7 @@ describe('App: Auth for Signup/Login Route', ()=>{
    it("should signup a user",async()=>{
        const response = await request(app).post("/signup")
        .set('content-type', 'application/json')
-       .send({email:"aliaba@gmail.com", password:"12345", firstname:"Aliyu", lastname:"AbdulGaniy"})
+       .send({email:"jay002@gmail.com", password:"12345", firstname:"Jamal", lastname:"Ibrahim"})
        expect(response.status).toBe(201);
        expect(response.body).toHaveProperty('message');
        expect(response.body).toHaveProperty('user');
@@ -42,12 +41,12 @@ describe('App: Auth for Signup/Login Route', ()=>{
     //test by creating user in the database  
     //NB: make sure to fulfill your user model requirement as usual
 
-    const user = await UserModel.create({email:"aliaba@gmail.com", password:"12345", firstname:"Aliyu", lastname:"AbdulGaniy"})
+    const user = await UserModel.create({email:"jay002@gmail.com", password:"12345", firstname:"Jamal", lastname:"Ibrahim"})
     
    // login the user
     const response = await request(app).post("/login")
     .set("content-type", "application/json")
-    .send({email:"aliaba@gmail.com", password:"12345"})
+    .send({email:"jay002@gmail.com", password:"12345"})
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("token")
