@@ -117,7 +117,6 @@ exports.getUserBlogs = async (req,res)=>{
 exports.createBlog = async (req,res)=>{
    try {
     const newBlog = req.body; 
-
    //readingTime
    const readingTime = await readTime.getReadTime(newBlog.body);
    newBlog.reading_time = readingTime;   
