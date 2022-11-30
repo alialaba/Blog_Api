@@ -3,7 +3,6 @@ const joi = require("joi");
 const validateBlog = async (req,res,next)=>{
 
     const blogPayload = req.body;
-    console.log(blogPayload)
     try{
       await blogValidator.validateAsync(blogPayload);
       next();
@@ -33,7 +32,7 @@ tags: joi.array()
 body: joi.string()
     .min(100)
     .required(),
-create_At: joi.date()
+create_at: joi.date()
     .default(Date.now()),
 updated_at: joi.date()
     .default(Date.now())
