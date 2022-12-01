@@ -3,7 +3,6 @@ const joi = require("joi");
 const validateUserSignup = async (req,res, next)=>{
 
     const userSignupPayload= await req.body;
-    console.log(userSignupPayload)
     try {
         await signupValidator.validateAsync(userSignupPayload)
         next()
