@@ -25,7 +25,7 @@ app.use(express.json());//express bodyparser
 
 
 // register passport
-require("./passport") ;
+require("./config/passport") ;
 
 //routes 
 app.use("/",  authRouter)
